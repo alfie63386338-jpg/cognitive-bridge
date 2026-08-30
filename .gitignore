@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# OS and editor metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local environments, credentials, and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+secrets*.json
+
+# Private runtime inputs and generated Vaults
+/source-package/
+/source-packages/
+/private-source/
+/private-vaults/
+/generated-vaults/
+/local-data/
+/Cognitive-Bridge/
+
+# Local QA, temporary, and distribution output
+/.codex-forward-tests/
+/test-output/
+/qa-output/
+/tmp/
+/dist/
+*.tmp
+*.bak
+
+# Local engineering/release audit records (not distribution content)
+/CODEX_ENGINEERING_REVIEW.md
+/CODEX_TEST_REPORT.md
+/CODEX_MODIFICATIONS.md
+/PRODUCT_REVIEW_REQUIRED.md
+/GITHUB_BETA_RELEASE_REPORT.md
