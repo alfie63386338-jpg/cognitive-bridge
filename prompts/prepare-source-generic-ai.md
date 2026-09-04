@@ -10,7 +10,7 @@ Your job is **source preparation, not final interpretation**. Use only history, 
 
 Respect every user-specified exclusion and analyze only the explicitly included scope. Do not expand scope merely because additional history, memory, connected material, or account context is technically accessible.
 
-Please produce an **evidence-rich, structure-light Source Package** that helps another AI later determine what I thought, what you contributed, what changed, and what remains uncertain.
+Please produce an **evidence-rich, structure-light Markdown Source** that helps another AI later determine what I thought, what you contributed, what changed, and what remains uncertain.
 
 ## What to recover
 
@@ -56,23 +56,21 @@ The next system will do final atomization, ownership analysis, evolution reconst
 
 ## Preferred output
 
-If you can create multiple files, produce:
+Prefer one complete Markdown artifact named conceptually:
 
 ```text
-source-package/
-├── README.md
-├── source-index.md
-├── thought-events.md
-├── important-discussions.md
-├── original-expressions.md
-├── evolution-clues.md
-├── explicit-connections.md
-├── unresolved-questions.md
-├── candidate-seeds.md
-└── attribution-evidence.md
+cognitive-bridge-source.md
 ```
 
-If you cannot create files, produce one Markdown document named conceptually `cognitive-bridge-source.md` with the same headings.
+Organize it with clear headings for scope and gaps, source index/coverage, thought events, important discussions, original expressions, evolution clues, explicit connections, unresolved questions, candidate Seeds, and attribution evidence. Do not split it merely to look formal.
+
+## Fallback for text-only platforms
+
+If you cannot create a file, output the entire Markdown content directly in one complete block. Put only the Source Markdown in that block; do not add commands addressed to Cognitive Bridge before or after it. Do not require the user to reformat or package it. The user must be able to copy the result and paste it directly into Cognitive Bridge.
+
+## Optional advanced output
+
+Only when multi-file creation is genuinely available and useful, you may instead produce a structured package containing files such as `source-index.md`, `thought-events.md`, `important-discussions.md`, `candidate-seeds.md`, and `attribution-evidence.md`. A directory or ZIP is an optional container, not a prerequisite, and it has no higher evidentiary status than the same content in one Markdown artifact.
 
 ## Entry format
 

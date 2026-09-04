@@ -66,8 +66,76 @@ class TemplateTests(unittest.TestCase):
 
         self.assertIn("status: proposed", concept)
         self.assertIn("term_status: project-defined", concept)
+        self.assertIn("origin: A0", concept)
+        self.assertIn("adoption: unconfirmed", concept)
         self.assertIn("## Proposed Concepts", moc)
         self.assertNotIn("## Key Concepts", moc)
+
+    def test_ai_originated_concept_metadata_renders_as_valid_yaml(self) -> None:
+        values = {
+            "cb_id": "cb-concept-ai0001",
+            "status": "proposed",
+            "term_status": "project-defined",
+            "origin": "A0",
+            "adoption": "unconfirmed",
+            "evidence_level": "E3",
+            "created": "2026-09-03",
+            "updated": "2026-09-03",
+            "title": "Reversibility margin",
+            "definition": "A reusable comparison of how safely a decision can be undone.",
+        }
+        rendered = render(
+            (TEMPLATES / "concept.md").read_text(encoding="utf-8"), values
+        )
+
+        for field in (
+            "type: concept",
+            "status: proposed",
+            'origin: "A0"',
+            "adoption: unconfirmed",
+            "evidence_level: E3",
+        ):
+            self.assertIn(field, rendered)
+        self.assertNotIn("{{", rendered)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "concept.md"
+            path.write_text(rendered, encoding="utf-8")
+            self.assertEqual(validate_file(path), [])
+
+    def test_build_log_entry_requires_provenance_and_outcomes(self) -> None:
+        template = (TEMPLATES / "build-log-entry.md").read_text(encoding="utf-8")
+        for field in (
+            "cognitive_bridge_version:",
+            "protocol_version:",
+            "schema_version:",
+            "execution_mode:",
+            "source_intake_mode:",
+            "source_ids:",
+            "source_hashes:",
+            "ruleset_hash:",
+            "execution_fingerprint:",
+            "created_nodes:",
+            "updated_nodes:",
+            "skipped_work:",
+            "conflicts:",
+            "review_items:",
+        ):
+            self.assertIn(field, template)
+        self.assertIn("does not authenticate", template)
+        self.assertNotIn("runtime_skill_loaded", template)
+
+    def test_source_preparation_prompts_are_single_markdown_first(self) -> None:
+        prompts = ROOT / "prompts"
+        for path in sorted(prompts.glob("prepare-source-*.md")):
+            with self.subTest(prompt=path.name):
+                text = path.read_text(encoding="utf-8")
+                preferred = text.index("cognitive-bridge-source.md")
+                advanced = text.casefold().index("optional advanced")
+                self.assertLess(preferred, advanced)
+                self.assertIn("copy", text.casefold())
+                self.assertIn("paste", text.casefold())
+                self.assertIn("only the source markdown", text.casefold())
+                self.assertNotIn("source-package/\n├──", text)
 
 
 if __name__ == "__main__":

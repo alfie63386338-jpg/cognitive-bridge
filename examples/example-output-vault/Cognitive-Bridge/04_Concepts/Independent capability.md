@@ -3,6 +3,9 @@ cb_id: cb-concept-demo01
 type: concept
 status: proposed
 term_status: project-defined
+origin: A0
+adoption: unconfirmed
+evidence_level: E1
 created: 2026-08-30
 updated: 2026-08-30
 ---

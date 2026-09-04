@@ -86,6 +86,9 @@ mocs:
 
 ```yaml
 term_status:
+origin:
+adoption:
+evidence_level:
 aliases:
 definition_scope:
 mocs:
@@ -199,11 +202,33 @@ Do not turn the MOC into a technical manual.
 
 ## Source registry
 
-Track source identity, file/path, ingestion date, direct vs reconstructed status when known, scope, and processed identity/hash where practical. Source remains read-only.
+Track source identity, logical source name, source type, intake mode, processing time, scope, and processed content hash where practical. Record source AI/platform only when explicitly known. Source remains read-only.
+
+By default, persist `source_location: external` or `source_location: run-scoped`, not a physical absolute path. Component identifiers must be logical or package-relative. MOCs and cognitive nodes should refer to Source IDs or logical names rather than copying filesystem paths.
+
+An absolute path is allowed only when the user explicitly requests debug/reproducibility metadata or the runtime demonstrably requires it. Mark it `potentially_sensitive_metadata: true`; never include it in an execution fingerprint.
+
+The Source Registry must state that hashes support content identity and duplicate-ingestion detection, not historical truth, ownership, or Evidence rank. Paste, file, directory, and ZIP containers have no intrinsic evidentiary hierarchy.
 
 ## Build log
 
 Each first/update build should record a build ID, date, source IDs, created nodes, updated nodes, skipped work, conflicts, and review items. This supports auditability and rollback planning.
+
+For v0.2 and later, each new build entry should also record:
+
+```yaml
+cognitive_bridge_version:
+protocol_version:
+schema_version:
+execution_mode: first_build | update_build
+source_intake_mode: pasted_text | single_markdown | structured_directory | structured_zip
+ruleset_hash:
+execution_fingerprint:
+```
+
+Use `references/build-provenance-manifest.json` for declared version/schema values and canonical rule-file scope. The execution fingerprint is a deterministic identifier for declared build inputs. It does not authenticate an agent, runtime, native loader, plugin invocation, or execution environment.
+
+Record `skill_path`, a runtime manifest, or a loader attestation only when that exact value or signal is actually available. Never infer `runtime_skill_loaded: true` from the fact that the output resembles Cognitive Bridge.
 
 ## User Decisions
 
@@ -232,6 +257,10 @@ Before an update, read the Source Registry, every append-only User Decision even
 Preserve user edits. If an automatic update would overwrite meaningful human-edited body content, perform a local safe merge or create a review item instead.
 
 Existing Cognitive Bridge notes are current knowledge-state context, not fresh user-history evidence.
+
+Existing Source Registries and Build Logs may use older tables or omit v0.2 metadata. Read them as `legacy-unversioned`, preserve their bytes and meaning, and append new entries or sections. Do not rewrite the whole Vault or replace existing `cb_id` values merely to adopt the extended schema.
+
+When a preserved legacy audit section already contains a physical absolute path, report it as a privacy warning without echoing the matched value. Do not fail the build solely for that preserved legacy field, and do not copy it into a new v0.2 section. Any absolute path introduced by the current build remains a QA failure unless the user explicitly requested sensitive debug metadata and the affected file is marked `potentially_sensitive_metadata: true`.
 
 ## Existing Vault collisions
 

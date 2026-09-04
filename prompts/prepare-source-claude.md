@@ -28,23 +28,17 @@ Whenever possible preserve exact user wording and label it **direct quote**. If 
 
 Do not create a final philosophy, Obsidian schema, final MOCs, latent AI-inferred connections, or a polished growth story. Do not treat agreement noise or silence as deep adoption.
 
-If you can create files, use this package:
+Prefer one complete Markdown artifact named conceptually:
 
 ```text
-source-package/
-├── README.md
-├── source-index.md
-├── thought-events.md
-├── important-discussions.md
-├── original-expressions.md
-├── evolution-clues.md
-├── explicit-connections.md
-├── unresolved-questions.md
-├── candidate-seeds.md
-└── attribution-evidence.md
+cognitive-bridge-source.md
 ```
 
-If not, produce one Markdown document with those headings. For each important entry include only supported fields: time, evidence type (direct/reconstructed), user expression, AI contribution, later reuse, explicit connections, uncertainty, and a traceable source clue.
+Use headings for scope/gaps, source coverage, thought events, important discussions, original expressions, evolution clues, explicit connections, unresolved questions, candidate Seeds, and attribution evidence.
+
+If you cannot create a file, output the entire Markdown content directly as one complete block so I can copy and paste it into Cognitive Bridge without reformatting. Put only the Source Markdown in that block; do not add commands addressed to Cognitive Bridge before or after it. A multi-file directory or ZIP is an optional advanced output only when you can genuinely create it; it is not required and carries no higher Evidence.
+
+For each important entry include only supported fields: time, evidence type (direct/reconstructed), user expression, AI contribution, later reuse, explicit connections, uncertainty, and a traceable source clue.
 
 Before finishing, check that you did not invent quotes, dates, missing conversations, or a unified life philosophy. The next system must receive evidence, not a finished interpretation.
 

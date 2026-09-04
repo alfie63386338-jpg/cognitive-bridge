@@ -1,0 +1,17 @@
+{
+  "cognitive_bridge_version": "0.2.0-beta.1",
+  "release_status": "prerelease",
+  "protocol_version": "1",
+  "schema_version": "1.1",
+  "fingerprint_format": "cb-execution-fingerprint-v1",
+  "canonical_rule_files": [
+    "SKILL.md",
+    "references/cognitive-integrity-rules.md",
+    "references/universal-protocol.md",
+    "references/cognitive-knowledge-model.md",
+    "references/ownership-evolution-model.md",
+    "references/latent-connection-model.md",
+    "references/obsidian-output-protocol.md",
+    "references/terminology.md"
+  ]
+}

@@ -15,6 +15,17 @@ from typing import Any
 
 FENCE_START_RE = re.compile(r"^[ \t]*(?P<marker>`{3,}|~{3,})")
 HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
+PHYSICAL_ABSOLUTE_PATH_PATTERNS = (
+    re.compile(r"(?<![A-Za-z0-9])[A-Za-z]:[\\/]+"),
+    re.compile(r"(?<!\\)\\\\[^\\\s]+\\"),
+    re.compile(r"(?<!:)//[^/\s]+/"),
+    re.compile(r"(?<!\\)\\(?!\\)(?:[^\\\s]+\\)+[^\\\s]+"),
+    re.compile(r"file://", re.I),
+    re.compile(
+        r"(?<![\w:/<])/(?!/)(?:[\w._~+@%=-]+/)*"
+        r"[\w._~+@%=-]+"
+    ),
+)
 
 
 def configure_text_streams() -> None:
@@ -100,6 +111,16 @@ def portable_name_key(value: str) -> str:
     return unicodedata.normalize("NFC", value).casefold()
 
 
+def physical_absolute_path_matches(text: str):
+    """Yield conservative absolute-path/URI matches without exposing them."""
+    for pattern in PHYSICAL_ABSOLUTE_PATH_PATTERNS:
+        yield from pattern.finditer(text)
+
+
+def has_physical_absolute_path(text: str) -> bool:
+    return any(physical_absolute_path_matches(text))
+
+
 def split_frontmatter(text: str) -> tuple[str | None, str | None]:
     """Split Obsidian-style frontmatter, returning a sentinel when unterminated."""
     if not text.startswith("---\n"):
@@ -155,6 +176,18 @@ def is_within(path: Path, directory: Path) -> bool:
     return lexical or resolved
 
 
+def resolves_within(path: Path, directory: Path) -> bool:
+    """Require strict resolved containment for trust-boundary validation."""
+    try:
+        path_resolved = path.resolve(strict=True)
+        directory_resolved = directory.resolve(strict=True)
+    except OSError:
+        return False
+    return path_resolved == directory_resolved or path_resolved.is_relative_to(
+        directory_resolved
+    )
+
+
 def write_text_safely(path: Path, text: str, *, overwrite: bool = False) -> None:
     """Write UTF-8 text without overwriting unless explicitly authorized."""
     path = path.expanduser()
@@ -177,6 +210,52 @@ def write_text_safely(path: Path, text: str, *, overwrite: bool = False) -> None
         ) as handle:
             temporary_name = handle.name
             handle.write(text)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary_name, path)
+        temporary_name = None
+    finally:
+        if temporary_name is not None:
+            try:
+                Path(temporary_name).unlink()
+            except FileNotFoundError:
+                pass
+
+
+def append_text_safely(path: Path, text: str, *, header: str | None = None) -> None:
+    """Atomically append UTF-8 text while preserving all existing bytes."""
+    path = path.expanduser()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not path.exists():
+        prefix = f"{header.rstrip()}\n\n" if header else ""
+        write_text_safely(path, prefix + text)
+        return
+    existing = path.read_bytes()
+    try:
+        existing.decode("utf-8-sig")
+    except UnicodeDecodeError as exc:
+        raise OSError(f"existing file is not valid UTF-8: {path.name}") from exc
+    if not existing and header:
+        separator = b""
+        addition = f"{header.rstrip()}\n\n{text}".encode("utf-8")
+    else:
+        separator = b"" if not existing or existing.endswith(b"\n\n") else (
+            b"\n" if existing.endswith(b"\n") else b"\n\n"
+        )
+        addition = text.encode("utf-8")
+    temporary_name: str | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="wb",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as handle:
+            temporary_name = handle.name
+            handle.write(existing)
+            handle.write(separator)
+            handle.write(addition)
             handle.flush()
             os.fsync(handle.fileno())
         os.replace(temporary_name, path)

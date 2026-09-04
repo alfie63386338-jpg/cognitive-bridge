@@ -1,9 +1,9 @@
-# Expected Constraints — Adoption Without Integration
+# Expected Constraints — Passive Agreement Is Not Uptake
 
 ## Must
-- Treat a one-time “makes sense” response as at most accepted/considering depending context.
+- Keep an AI-originated Concept at `adoption: unconfirmed` when the only user response is a one-time passive “makes sense.”
 
 ## Must not
-- Must not mark integrated without later autonomous reuse.
+- Must not treat passive agreement as `considering` or any higher Adoption state.
 
 This file describes behavioral constraints, not exact wording or exact note counts.

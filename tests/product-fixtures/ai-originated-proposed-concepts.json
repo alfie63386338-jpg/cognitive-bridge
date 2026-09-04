@@ -1,0 +1,81 @@
+{
+  "canonical_default": {
+    "type": "concept",
+    "status": "proposed",
+    "origin": "A0",
+    "adoption": "unconfirmed"
+  },
+  "scenarios": {
+    "ai_named_no_uptake": {
+      "create_concept": true,
+      "type": "concept",
+      "status": "proposed",
+      "origin": "A0",
+      "adoption": "unconfirmed",
+      "evidence_level": "E3"
+    },
+    "passive_agreement": {
+      "create_concept": true,
+      "type": "concept",
+      "status": "proposed",
+      "origin": "A0",
+      "adoption": "unconfirmed",
+      "evidence_level": "E3",
+      "considering_allowed": false
+    },
+    "active_user_exploration": {
+      "create_concept": true,
+      "type": "concept",
+      "origin": "A→U",
+      "adoption": "considering",
+      "evidence_level": "E3",
+      "ai_first_history_preserved": true,
+      "maximum_automatic_adoption": "considering"
+    },
+    "later_active_reuse": {
+      "create_concept": true,
+      "type": "concept",
+      "origin": "A→U",
+      "adoption": "integrated",
+      "evidence_level": "E3",
+      "historical_introducer": "AI",
+      "minimum_supported_adoption": "considering",
+      "higher_adoption_allowed_under_existing_model": true,
+      "preserve_cb_id": true
+    },
+    "direct_ai_origin": {
+      "create_concept": true,
+      "type": "concept",
+      "status": "proposed",
+      "origin": "A0",
+      "adoption": "unconfirmed",
+      "evidence_level": "E3",
+      "evidence_supports": "historical occurrence and AI-origin attribution"
+    },
+    "source_ai_reconstruction": {
+      "create_concept": true,
+      "type": "concept",
+      "status": "proposed",
+      "origin": "A0",
+      "adoption": "unconfirmed",
+      "evidence_level": "E1",
+      "direct_record": false
+    },
+    "decorative_label": {
+      "create_concept": false
+    },
+    "feedback_contamination": {
+      "create_concept": false,
+      "type": "concept",
+      "status": "proposed",
+      "run_1_origin": "A0",
+      "run_1_adoption": "unconfirmed",
+      "run_1_evidence_level": "E3",
+      "new_user_uptake_evidence": false,
+      "run_2_origin": "A0",
+      "run_2_adoption": "unconfirmed",
+      "run_2_evidence_level": "E3",
+      "preserve_cb_id": true
+    }
+  }
+}

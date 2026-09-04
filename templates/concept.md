@@ -5,6 +5,15 @@ status: {{status}}
 {{#if term_status}}
 term_status: {{term_status}}
 {{/if}}
+{{#if origin}}
+origin: "{{origin}}"
+{{/if}}
+{{#if adoption}}
+adoption: {{adoption}}
+{{/if}}
+{{#if evidence_level}}
+evidence_level: {{evidence_level}}
+{{/if}}
 created: {{created}}
 updated: {{updated}}
 ---

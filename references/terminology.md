@@ -6,9 +6,11 @@ Use these terms consistently across the project.
 |---|---|
 | Cognitive Asset | Durable thought material worth preserving for future understanding, reuse, revision, or connection. |
 | Cognitive Unit | The basic semantic unit extracted from Source; not equivalent to a message/chat/file. |
-| Source | User-provided material authorized for analysis. |
-| Source Package | Evidence-rich, structure-light package prepared from historical material for Cognitive Bridge. |
-| Source Intake | Readability, inventory, duplication, coverage, and scope assessment of supplied Source. |
+| Source | User-provided pasted text, Markdown, export, directory, ZIP, or other material authorized for analysis. |
+| Source Artifact | One logical evidence-bearing item in normalized Source, independent of its transport container. |
+| Source Package | Optional evidence-rich, structure-light multi-artifact directory or ZIP prepared from historical material for Cognitive Bridge. |
+| Source Intake | Detection and transport-only normalization followed by readability, inventory, duplication, coverage, and scope assessment of supplied Source. |
+| Execution Fingerprint | Deterministic build-provenance identifier for declared version, rules, modes, and Source hashes; not runtime attestation. |
 | Cognitive Mining | Extraction of durable candidate cognitive units across files/conversations. |
 | Origin | How an idea entered the recorded user–AI cognitive process. |
 | Adoption | Degree to which the user took up a thought. |
@@ -38,6 +40,8 @@ Use these terms consistently across the project.
 - Origin, Adoption, and Evidence values are defined only in [ownership-evolution-model.md](ownership-evolution-model.md).
 - Relation origin, status, and confidence values are defined only in [latent-connection-model.md](latent-connection-model.md).
 - Type-scoped note status values are defined only in [cognitive-knowledge-model.md](cognitive-knowledge-model.md).
+- Source Intake Mode values are `pasted_text`, `single_markdown`, `structured_directory`, and `structured_zip`.
+- Execution Mode values are `first_build` and `update_build`.
 - Term status and Claim status values are defined below.
 
 ### Term status

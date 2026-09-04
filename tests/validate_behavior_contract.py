@@ -38,6 +38,14 @@ CASES = {
     "16": "rejected-relation",
     "17": "reopen-with-new-evidence",
     "18": "ai-feedback-contamination",
+    "19": "ai-concept-no-uptake",
+    "20": "ai-concept-passive-agreement",
+    "21": "ai-concept-active-exploration",
+    "22": "ai-concept-later-active-reuse",
+    "23": "direct-ai-origin-evidence",
+    "24": "reconstructed-ai-origin-evidence",
+    "25": "decorative-ai-label",
+    "26": "ai-concept-adoption-contamination",
 }
 
 CASE_HEADINGS = (
@@ -146,6 +154,7 @@ INCREMENTAL_REQUIREMENTS = {
                 "cb-concept-autonomy-gradient",
                 "term_status: project-defined",
                 "origin: A0",
+                "adoption: unconfirmed",
                 "CASE18-AI-PROVENANCE-SENTINEL",
             ),
             "existing-vault/Cognitive-Bridge/00_System/Source Registry.md": (
@@ -156,6 +165,59 @@ INCREMENTAL_REQUIREMENTS = {
             "existing-vault/Cognitive-Bridge/00_System/Build Log.md": (
                 "cb-build-case18-001",
                 "cb-concept-autonomy-gradient",
+            ),
+        },
+    },
+    "22": {
+        "files": (
+            "source.md",
+            "run-1-source.md",
+            "existing-vault/Cognitive-Bridge/04_Concepts/Reversibility Margin.md",
+            "existing-vault/Cognitive-Bridge/00_System/Source Registry.md",
+            "existing-vault/Cognitive-Bridge/00_System/Build Log.md",
+        ),
+        "tokens": {
+            "source.md": (
+                "using the reversibility margin from our earlier discussion",
+            ),
+            "existing-vault/Cognitive-Bridge/04_Concepts/Reversibility Margin.md": (
+                "cb-concept-reversibility-margin",
+                "origin: A0",
+                "adoption: unconfirmed",
+                "CASE22-AI-FIRST-SENTINEL",
+            ),
+            "existing-vault/Cognitive-Bridge/00_System/Source Registry.md": (
+                "src-case22-run1",
+            ),
+            "existing-vault/Cognitive-Bridge/00_System/Build Log.md": (
+                "cb-build-case22-001",
+            ),
+        },
+    },
+    "26": {
+        "files": (
+            "source.md",
+            "run-1-source.md",
+            "existing-vault/Cognitive-Bridge/04_Concepts/Autonomy Gradient.md",
+            "existing-vault/Cognitive-Bridge/00_System/Source Registry.md",
+            "existing-vault/Cognitive-Bridge/00_System/Build Log.md",
+        ),
+        "tokens": {
+            "source.md": (
+                "temperature gradient",
+            ),
+            "existing-vault/Cognitive-Bridge/04_Concepts/Autonomy Gradient.md": (
+                "cb-concept-adoption-guard",
+                "origin: A0",
+                "adoption: unconfirmed",
+                "evidence_level: E3",
+                "CASE26-NO-UPTAKE-SENTINEL",
+            ),
+            "existing-vault/Cognitive-Bridge/00_System/Source Registry.md": (
+                "src-case26-run1",
+            ),
+            "existing-vault/Cognitive-Bridge/00_System/Build Log.md": (
+                "cb-build-case26-001",
             ),
         },
     },
@@ -302,6 +364,23 @@ def validate() -> tuple[list[str], dict[str, str]]:
                 f"case 18: run-2 Source improperly contains prior generated-state token {forbidden}"
             )
 
+    adoption_contamination_source = read_utf8(
+        ROOT / "fixtures" / "26-ai-concept-adoption-contamination" / "source.md",
+        issues,
+    )
+    if "temperature gradient" not in adoption_contamination_source.casefold():
+        issues.append("case 26: run-2 Source is missing the unrelated lexical-overlap trap")
+    for forbidden in (
+        "Autonomy Gradient",
+        "cb-concept-adoption-guard",
+        "src-case26-run1",
+    ):
+        if forbidden in adoption_contamination_source:
+            issues.append(
+                "case 26: run-2 Source improperly contains prior generated-state token "
+                f"{forbidden}"
+            )
+
     return issues, baseline_hashes
 
 
@@ -326,7 +405,7 @@ def main() -> int:
             print(f"- {issue}")
     else:
         print(
-            "Behavior contract OK: 18 case/fixture/expected triplets and "
+            f"Behavior contract OK: {len(CASES)} case/fixture/expected triplets and "
             "incremental preservation anchors are structurally valid."
         )
         print("Note: generative behavior still requires observed run outputs and manual review.")

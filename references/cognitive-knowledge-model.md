@@ -17,6 +17,19 @@ A complete claim that can be supported, challenged, refined, contradicted, or ap
 ### Concept
 A reusable semantic tool across multiple Ideas, Discussions, or domains. Do not create a Concept for every noun.
 
+An AI-originated term may become a standalone Concept when it passes the Independent Existence Test, remains understandable and reusable on its own over time, has substantive relevance to the user's actual discussion, and is not a decorative label invented for one answer. If those conditions are met but the Source contains no real user uptake, use:
+
+```yaml
+type: concept
+status: proposed
+origin: A0
+adoption: unconfirmed
+```
+
+Creating the Concept preserves a provenance-bearing semantic tool; it does not mean the user adopted it. Keep one-off labels, rhetorical renamings, ordinary vocabulary, context-dependent phrases, and other graph decoration inside their source context rather than creating standalone Concepts.
+
+Assign provenance to the node actually created. A related U0 Idea does not transfer its Origin to a separate semantic tool or Concept that the AI introduced; that Concept starts at A0 while the user Idea keeps its own Origin. Use `U→A` instead only when Source evidence shows that the user had already supplied the Concept's core semantic content and the AI mainly named, structured, or expanded that same Concept.
+
 ### Question
 A durable open question with continued generative value. It is not every sentence with a question mark.
 
@@ -56,6 +69,8 @@ If an existing user-authored Vault note is involved, an ambiguous merge is propo
 ## Experiences, emotions, facts, and generated output
 
 An experience or emotion enters the cognitive layer only when it generates a durable insight, question, concept, method, or evolution event. Ordinary factual knowledge is not the target of this skill. AI-generated assignments, copy, explanations, and code are excluded unless the user's later critique, modification, reuse, or method makes them cognitively durable.
+
+This generated-deliverable exclusion does not bar a qualifying AI-originated proposed Concept under the rule above.
 
 ## Type-scoped `status`
 
